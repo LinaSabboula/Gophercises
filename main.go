@@ -43,7 +43,7 @@ func main() {
 				score++
 			}
 		case <-timer.C:
-			fmt.Printf("\nCongratulations your score is: %d/%d\n", score, maxScore)
+			fmt.Printf("\nTimer's up!!\n Your score is: %d/%d\n", score, maxScore)
 			return
 		}
 
