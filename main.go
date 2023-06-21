@@ -18,9 +18,9 @@ func getInput(prompt string, reader *bufio.Reader, answerChannel chan string) {
 }
 func main() {
 	fileName := flag.String("file", "problems.csv", "csv file in format of 'question,answer'")
-	timerValue := flag.Int("limit", 30, "Time limit for each question")
-	timerDuration := time.Duration(*timerValue) * time.Second
-	timer := time.NewTimer(timerDuration)
+	timerValue := flag.Int("limit", 5, "Time limit for each question")
+	tickerDuration := time.Duration(*timerValue) * time.Second
+	ticker := time.NewTicker(tickerDuration)
 	flag.Parse()
 
 	fmt.Println("Welcome to the super smart quiz game!")
@@ -42,9 +42,9 @@ func main() {
 			if strings.EqualFold(answer, record[1]) {
 				score++
 			}
-		case <-timer.C:
-			fmt.Printf("\nTimer's up!!\n Your score is: %d/%d\n", score, maxScore)
-			return
+		case <-ticker.C:
+			fmt.Printf("\nTimer's up! Next Question")
+			break
 		}
 
 	}
