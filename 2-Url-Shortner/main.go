@@ -1,9 +1,12 @@
 package main
 
 import (
-	"Gophercises/urlshort"
+	"Gophercises/2-Url-Shortner/urlshort"
+	"flag"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -13,17 +16,17 @@ func main() {
 	pathsToUrls := map[string]string{
 		"/urlshort-godoc": "https://godoc.org/github.com/gophercises/urlshort",
 	}
-	mapHandler := urlshort.MapHandler(pathsToUrls, mux)
+	var mapHandler = urlshort.MapHandler(pathsToUrls, mux)
+	fileName := flag.String("file", "urls.yml", "yaml file containing paths and urls")
+	flag.Parse()
 
-	// Build the YAMLHandler using the mapHandler as the
-	// fallback
-	yaml := `
-   - path: /urlshort
-     url: https://github.com/gophercises/urlshort
-   - path: /urlshort-final
-     url: https://github.com/gophercises/urlshort/tree/solution
-`
-	yamlHandler, err := urlshort.YAMLHandler([]byte(yaml), mapHandler)
+	buf, err := os.ReadFile(*fileName)
+
+	if err != nil {
+		log.Fatal("Unable to read input file ", err)
+	}
+
+	yamlHandler, err := urlshort.YAMLHandler(buf, mapHandler)
 	if err != nil {
 		panic(err)
 	}

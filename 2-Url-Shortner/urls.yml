@@ -1,0 +1,8 @@
+- path: /urlshort
+  url: https://github.com/gophercises/urlshort
+- path: /urlshort-final
+  url: https://github.com/gophercises/urlshort/tree/solution
+- path: /poland
+  url: https://en.wikipedia.org/wiki/Poland
+- path: /warsaw
+  url: https://en.wikipedia.org/wiki/Warsaw
