@@ -51,5 +51,6 @@ func main() {
 		}
 
 	}
+	fmt.Printf("\nCongratulations your score is: %d/%d\n", score, maxScore)
 
 }
