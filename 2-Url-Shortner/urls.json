@@ -1,0 +1,9 @@
+[
+  { "path": "/warsaw",
+    "url" : "https://en.wikipedia.org/wiki/Warsaw"
+  },
+  {
+    "path": "/poland",
+    "url": "https://en.wikipedia.org/wiki/Poland"
+  }
+]
