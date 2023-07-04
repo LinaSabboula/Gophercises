@@ -3,6 +3,7 @@ package urlshort
 import (
 	"encoding/json"
 	"gopkg.in/yaml.v2"
+	"log"
 	"net/http"
 )
 
@@ -24,77 +25,34 @@ func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.Handl
 	}
 }
 
-//
-//type YAMLInput struct {
-//	YAML struct {
-//		YAML []YAML `yaml:"path,url"`
-//	}
-//}
-
-type YAML struct {
-	Path string `yaml:"path"`
-	Url  string `yaml:"url"`
+type Data struct {
+	Path string
+	Url  string
 }
 
-type JSON struct {
-	path string
-	url  string
-}
-
-// YAMLHandler will parse the provided YAML and then return
-// an http.HandlerFunc (which also implements http.Handler)
-// that will attempt to map any paths to their corresponding
-// URL. If the path is not provided in the YAML, then the
-// fallback http.Handler will be called instead.
-//
-// YAML is expected to be in the format:
-//
-//   - path: /some-path
-//     url: https://www.some-url.com/demo
-//
-// The only errors that can be returned all related to having
-// invalid YAML data.
-//
-// See MapHandler to create a similar http.HandlerFunc via
-// a mapping of paths to urls.
-func YAMLHandler(yml []byte, fallback http.Handler) (http.HandlerFunc, error) {
-	parsedYaml, err := parseYAML(yml)
+func DataHandler(data []byte, fallback http.Handler) (http.HandlerFunc, error) {
+	parsedData, err := parseData(data)
 	if err != nil {
 		return nil, err
 	}
-	pathMap := buildYamlMap(parsedYaml)
+	pathMap := buildMap(parsedData)
 	return MapHandler(pathMap, fallback), nil
-}
-func JSONHandler(json []byte, fallback http.Handler) (http.HandlerFunc, error) {
-	parsedJson, err := parseJSON(json)
-	if err != nil {
-		return nil, err
-	}
-	pathMap := buildJsonMap(parsedJson)
-	return MapHandler(pathMap, fallback), nil
-}
-func parseJSON(decodedJson []byte) ([]JSON, error) {
-	var parsedJson []JSON
-	err := json.Unmarshal(decodedJson, &parsedJson)
-	return parsedJson, err
-}
-func parseYAML(yml []byte) ([]YAML, error) {
-	var parsedYAML []YAML
-	err := yaml.Unmarshal(yml, &parsedYAML)
-	return parsedYAML, err
-}
-func buildYamlMap(parsedYAML []YAML) map[string]string {
-	yamlMap := make(map[string]string)
-	for _, v := range parsedYAML {
-		yamlMap[v.Path] = v.Url
-	}
-	return yamlMap
 }
 
-func buildJsonMap(parsedJSON []JSON) map[string]string {
-	yamlMap := make(map[string]string)
-	for _, v := range parsedJSON {
-		yamlMap[v.path] = v.url
+func parseData(data []byte) ([]Data, error) {
+	var parsedData []Data
+	err := json.Unmarshal(data, &parsedData)
+	if err != nil {
+		log.Println("YAML data sent")
+		err = yaml.Unmarshal(data, &parsedData)
 	}
-	return yamlMap
+	return parsedData, err
+}
+
+func buildMap(parsedData []Data) map[string]string {
+	dataMap := make(map[string]string)
+	for _, v := range parsedData {
+		dataMap[v.Path] = v.Url
+	}
+	return dataMap
 }

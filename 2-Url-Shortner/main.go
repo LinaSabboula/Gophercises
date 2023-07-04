@@ -26,15 +26,15 @@ func main() {
 		log.Fatal("Unable to read input file ", err)
 	}
 
-	yamlHandler, err := urlshort.YAMLHandler(buf, mapHandler)
+	yamlHandler, err := urlshort.DataHandler(buf, mapHandler)
 	if err != nil {
 		panic(err)
 	}
-	jsonHandler, err := urlshort.JSONHandler(buf, yamlHandler)
+	jsonHandler, err := urlshort.DataHandler(buf, yamlHandler)
 	fmt.Println("Starting the server on :8080")
 	err = http.ListenAndServe(":8080", jsonHandler)
 	if err != nil {
-		return
+		log.Fatal(err)
 	}
 }
 
