@@ -2,6 +2,8 @@ package urlshort
 
 import (
 	"encoding/json"
+	"github.com/boltdb/bolt"
+	"github.com/spf13/viper"
 	"gopkg.in/yaml.v2"
 	"log"
 	"net/http"
@@ -38,12 +40,30 @@ func DataHandler(data []byte, fallback http.Handler) (http.HandlerFunc, error) {
 	pathMap := buildMap(parsedData)
 	return MapHandler(pathMap, fallback), nil
 }
+func DBHandler(db *bolt.DB, fallback http.Handler) http.HandlerFunc {
+	viper.SetConfigFile(".env")
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return func(writer http.ResponseWriter, request *http.Request) {
+		bucket := viper.Get("BUCKET").(string)
+		err = db.View(func(tx *bolt.Tx) error {
+			b := tx.Bucket([]byte(bucket))
+			value := b.Get([]byte(request.URL.Path))
+			http.Redirect(writer, request, string(value), http.StatusPermanentRedirect)
+			return nil
+		})
+		if err != nil {
+			fallback.ServeHTTP(writer, request)
+		}
+	}
+}
 
 func parseData(data []byte) ([]Data, error) {
 	var parsedData []Data
 	err := json.Unmarshal(data, &parsedData)
 	if err != nil {
-		log.Println("YAML data sent")
 		err = yaml.Unmarshal(data, &parsedData)
 	}
 	return parsedData, err
