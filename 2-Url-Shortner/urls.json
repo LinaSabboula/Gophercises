@@ -1,9 +1,17 @@
 [
-  { "path": "/warsaw",
-    "url" : "https://en.wikipedia.org/wiki/Warsaw"
+  { "path": "/json",
+    "url" : "https://en.wikipedia.org/wiki/JSON"
   },
   {
-    "path": "/poland",
-    "url": "https://en.wikipedia.org/wiki/Poland"
+    "path": "/javascript",
+    "url": "https://en.wikipedia.org/wiki/JavaScript"
+  },
+  {
+    "path": "/cairo",
+    "url": "https://en.wikipedia.org/wiki/Cairo"
+  },
+  {
+    "path": "/egypt",
+    "url": "https://en.wikipedia.org/wiki/Egypt"
   }
 ]

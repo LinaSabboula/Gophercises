@@ -1,7 +1,7 @@
-- path: /urlshort
-  url: https://github.com/gophercises/urlshort
-- path: /urlshort-final
-  url: https://github.com/gophercises/urlshort/tree/solution
+- path: /yaml
+  url: https://en.wikipedia.org/wiki/YAML
+- path: /python
+  url: https://en.wikipedia.org/wiki/Python_(programming_language)
 - path: /poland
   url: https://en.wikipedia.org/wiki/Poland
 - path: /warsaw
