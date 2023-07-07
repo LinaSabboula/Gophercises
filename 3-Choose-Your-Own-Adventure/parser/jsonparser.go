@@ -8,10 +8,12 @@ import (
 type Chapter struct {
 	Title   string   `json:"title"`
 	Story   []string `json:"story"`
-	Options []struct {
-		Text string `json:"text"`
-		Arc  string `json:"arc"`
-	} `json:"options"`
+	Options []Option `json:"options"`
+}
+
+type Option struct {
+	Text string `json:"text"`
+	Arc  string `json:"arc"`
 }
 
 func ParseData(data []byte) (map[string]Chapter, error) {
