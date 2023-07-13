@@ -4,15 +4,64 @@
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{/*    <link rel="stylesheet" href="static/css/style.css">*/}}
+    <style>
+        h1 {
+            color: rosybrown;
+            font-weight: bold;
+            font-family: serif;
+            text-align: center;
+        }
+
+
+        .story {
+            border: 1px solid #ec6e33;
+            height: 90%;
+            width: 90%;
+
+            position: center;
+            display: grid;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 1.5rem 1.5rem 1rem;
+            max-width: 500px;
+            margin:  auto;
+            border-radius: .5rem;
+            background-color: #feddd6;
+        }
+
+        a {
+            color: #ae6c6c;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #dc8c8c;
+        }
+
+        a:active {
+            color: #dc8c8c;
+        }
+
+        p {
+            color: #464545;
+        }
+    </style>
     <title>{{ .Title }}</title>
 </head>
 <body>
+<div class="story">
     <h1>{{ .Title }}</h1>
 
-    <p>{{ range .Story }} {{ . }} </p> {{ end }}
-    <br>
-    {{ range .Options }} <br> <a href = {{ .Arc }}> {{ .Text }} </a> {{ end }}
+    {{ range .Story }} <p> {{ . }} </p> {{ end }}
 
+    <br>
+
+    {{ range .Options }}
+        <p>
+            <a href= {{ .Arc }}> {{ .Text }} </a>
+        </p>
+    {{ end }}
+
+</div>
 </body>
 </html>
